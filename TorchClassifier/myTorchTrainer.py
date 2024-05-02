@@ -113,7 +113,7 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
 parser.add_argument('--classmap', default='TorchClassifier/Datasetutil/imagenet1000id2label.json', type=str, metavar='FILENAME',
                     help='path to class to idx mapping file (default: "")')
-parser.add_argument('--GPU', type=bool, default=True,
+parser.add_argument('--GPU', type=bool, default=False,
                     help='use GPU')
 parser.add_argument('--gpuid', default=0, type=int,
                     help='GPU id to use.')
@@ -211,10 +211,10 @@ def train_model(model, dataloaders, dataset_sizes, criterion, optimizer, schedul
                 running_loss += loss.item() * inputs.size(0)#batch size
                 running_corrects += torch.sum(preds == labels.data)
                 # measure accuracy and record loss
-                acc1, acc5 = accuracy(outputs, labels, topk=(1, 5))
+                acc1 = accuracy(outputs, labels, topk=(1,))[0]
                 losses.update(loss.item(), inputs.size(0))
                 top1.update(acc1[0], inputs.size(0))
-                top5.update(acc5[0], inputs.size(0))
+                #top5.update(acc5[0], inputs.size(0))
                 # measure elapsed time
                 batch_time.update(time.time() - end)
                 end = time.time()
