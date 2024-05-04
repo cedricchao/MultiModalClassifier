@@ -273,7 +273,8 @@ class MLP(nn.Module): #for MNIST dataset
         super().__init__()
         #three linear layers
         #take the input batch of images and flatten them so they can be passed into the linear layers
-        self.input_fc = nn.Linear(input_dim, 250) #hidden dimensions of 250 elements
+        # self.input_fc = nn.Linear(input_dim, 250) #hidden dimensions of 250 elements
+        self.input_fc = nn.Linear(input_dim*3, 250)
         self.hidden_fc = nn.Linear(250, 100) #hidden dimensions of 100 elements
         self.output_fc = nn.Linear(100, output_dim)
         
@@ -311,7 +312,7 @@ class LeNet(nn.Module):#for 28*28 MNIST dataset
     def __init__(self, output_dim):
         super().__init__()
 
-        self.conv1 = nn.Conv2d(in_channels = 1, 
+        self.conv1 = nn.Conv2d(in_channels = 1,
                                out_channels = 6, 
                                kernel_size = 5)
         
@@ -385,7 +386,7 @@ def create_lenet(numclasses, img_shape):
 class AlexNet(nn.Module):
     def __init__(self, output_dim):
         super().__init__()
-        
+
         self.features = nn.Sequential(
             nn.Conv2d(3, 64, 3, 2, 1), #in_channels, out_channels, kernel_size, stride, padding
             nn.MaxPool2d(2), #kernel_size
@@ -401,7 +402,7 @@ class AlexNet(nn.Module):
             nn.MaxPool2d(2),
             nn.ReLU(inplace = True)
         )
-        
+
         self.classifier = nn.Sequential(
             nn.Dropout(0.5),
             nn.Linear(256 * 2 * 2, 4096),
@@ -417,6 +418,14 @@ class AlexNet(nn.Module):
         h = x.view(x.shape[0], -1)
         x = self.classifier(h)
         return x, h
+
+
+
+
+
+
+
+
 
 def create_AlexNet(numclasses, img_shape):
     #for MNIST dataset
